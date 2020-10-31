@@ -1,37 +1,52 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "fabrikommander",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "FabriKommander",
+  "description": "Server-side utilities to keep your server in line.",
+
   "authors": [
-    "Me!"
+    "gdude2002"
   ],
+
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/gdude2002/FabriKommander",
+    "sources": "https://github.com/gdude2002/FabriKommander"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "LGPL-3.0",
+  "icon": "assets/fabrikommander/icon.png",
 
   "environment": "*",
+
   "entrypoints": {
+    "client": [
+      {
+        "value": "me.gserv.fabrikommander.Client",
+        "adapter": "kotlin"
+      }
+    ],
     "main": [
-      "net.fabricmc.example.ExampleModKt::init"
+      {
+        "value": "me.gserv.fabrikommander.Common",
+        "adapter": "kotlin"
+      }
     ]
   },
+
   "mixins": [
-    "modid.mixins.json"
+    "fabrikommander.mixins.json"
   ],
+
   "depends": {
     "fabricloader": ">=0.8.7",
     "fabric": "*",
     "fabric-language-kotlin": "*",
     "minecraft": "1.16.x"
   },
+
   "suggests": {
-    "flamingo": "*"
+
   }
 }

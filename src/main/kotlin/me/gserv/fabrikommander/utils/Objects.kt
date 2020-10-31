@@ -11,7 +11,7 @@ fun identifierToWorldName(id: Identifier) = when (id.toString()) {
     else -> {
         val mod = FabricLoader.getInstance().getModContainer(id.namespace)
 
-        if (mod.isEmpty) {
+        if (mod.isEmpty()) {  // Fails the build in CI, apparently
             id.toString()
         } else {
             val modName = mod.get().metadata.name

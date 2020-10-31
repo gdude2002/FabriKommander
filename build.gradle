@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id "org.jetbrains.kotlin.jvm"
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -11,6 +12,14 @@ targetCompatibility = JavaVersion.VERSION_1_8
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+configurations {
+    shade
+}
+
+shadowJar {
+    configurations = [project.configurations.shade]
+}
 
 minecraft {
 
@@ -43,9 +52,10 @@ dependencies {
     implementation "com.charleskorn.kaml:kaml:${project.kaml_version}"
 
     // JIJ'd deps
-    include "com.uchuhimo:konf:${project.konf_version}"
-    include "com.uchuhimo:konf-toml:${project.konf_version}"
-    include "com.charleskorn.kaml:kaml:${project.kaml_version}"
+    shade "com.uchuhimo:konf:${project.konf_version}"
+    shade "com.uchuhimo:konf-toml:${project.konf_version}"
+    shade "com.charleskorn.kaml:kaml:${project.kaml_version}"
+    shade "org.jetbrains.kotlinx:kotlinx-serialization-core:${project.kx_ser_version}"
 }
 
 processResources {
@@ -80,6 +90,31 @@ jar {
     from "LICENSE"
 }
 
+remapJar {
+    dependsOn "shadowJar"
+
+    input.set shadowJar.archiveFile.get()
+}
+
+shadowJar {
+    relocate "com.charleskorn", "me.gserv.fabrikommander.shaded.com.charleskorn"
+    relocate "com.sun", "me.gserv.fabrikommander.shaded.com.sun"
+
+    relocate "kotlin", "me.gserv.fabrikommander.shaded.kotlin"
+
+    relocate "kotlinx.coroutines", "me.gserv.fabrikommander.shaded.kotlinx.coroutines"
+    relocate "kotlinx.serialization", "me.gserv.fabrikommander.shaded.kotlinx.serialization"
+
+    relocate "org.eclipse", "me.gserv.fabrikommander.shaded.org.eclipse"
+    relocate "org.intellij", "me.gserv.fabrikommander.shaded.org.intellij"
+    relocate "org.jetbrains", "me.gserv.fabrikommander.shaded.org.jetbrains"
+    relocate "org.snakeyaml", "me.gserv.fabrikommander.shaded.org.snakeyaml"
+
+    minimize {
+        exclude(dependency("org.jetbrains.kotlinx:.*"))
+    }
+}
+
 // configure the maven publication
 publishing {
     publications {
@@ -102,3 +137,4 @@ publishing {
 }
 
 compileKotlin.kotlinOptions.jvmTarget = "1.8"
+

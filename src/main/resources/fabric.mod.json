@@ -23,14 +23,12 @@
   "entrypoints": {
     "client": [
       {
-        "value": "me.gserv.fabrikommander.Client",
-        "adapter": "kotlin"
+        "value": "me.gserv.fabrikommander.Client::INSTANCE"
       }
     ],
     "main": [
       {
-        "value": "me.gserv.fabrikommander.Common",
-        "adapter": "kotlin"
+        "value": "me.gserv.fabrikommander.Common::INSTANCE"
       }
     ]
   },

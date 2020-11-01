@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "FabriKommander",
-  "description": "Server-side utilities to keep your server in line.",
+  "description": "Utility commands and tools for server admins and modpack creators.",
 
   "authors": [
     "gdude2002"

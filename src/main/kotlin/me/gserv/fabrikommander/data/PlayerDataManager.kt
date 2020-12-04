@@ -93,6 +93,12 @@ object PlayerDataManager {
     }
 
     fun setHome(uuid: UUID, home: Home): Boolean? {
+        val existing = getHome(uuid, home.name)
+
+        if (existing != null) {
+            cache[uuid]?.homes?.remove(home)
+        }
+
         val result = cache[uuid]?.homes?.add(home)
 
         saveData(uuid)
